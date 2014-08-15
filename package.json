@@ -25,7 +25,8 @@
     "reactify": "^0.14.0"
   },
   "browser": {
-    "mousetrap": "./public/components/mousetrap/mousetrap.js"
+    "mousetrap": "./public/components/mousetrap/mousetrap.js",
+    "react": "./public/components/react/react.js"
   },
   "window": {}
 }

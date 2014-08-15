@@ -2,10 +2,61 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <script type="text/javascript" charset="utf-8">
+
       var nodeRequire = require;
       var serialPort = require('serialport').SerialPort;
+
+      var fs = require('fs');
+      var process = require('child_process');
+
+      var util = require('util');
+
+      var MessageBus = function() {
+
+        var binds = {'all': [function() {}]};
+
+        this.reactOn = function(data) {
+          //console.log(util.inspect(data))
+
+          var callbacks = binds[data.type]
+
+          for (var cb in callbacks) {
+            callbacks[cb](data.message)
+          }
+        }
+
+        this.bind = function(type, callback) {
+          console.log('bind')
+
+          binds[type].push(callback)
+        }
+
+        this.unbind = function(type, callback) {
+          console.log('unbind')
+        }
+      }
+
+      var msgBus = new MessageBus()
+
+      worker = process.spawn('node', ['worker.js'], {stdio: [null, null, null, 'ipc']})
+
+      worker.on('message', msgBus.reactOn)
+
+      //worker.on('message', function(data) {
+        //console.log(util.inspect(data))
+      //})
+
+      //worker.stdout.on('data', function(data) {
+        //console.log('data: ' + data)
+      //});
+
+      //setInterval(function() {
+        //console.log("Process "+ process +" at work " );
+      //}, 1000)
+
     </script>
-    <script src="public/app.js" type="text/javascript" charset="utf-8"></script>
   </head>
   <body></body>
+
+  <script src="public/app.js" type="text/javascript" charset="utf-8"></script>
 </html>
