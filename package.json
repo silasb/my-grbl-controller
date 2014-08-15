@@ -1,0 +1,31 @@
+{
+  "name": "gach3",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mousetrap": "0.0.1",
+    "nodewebkit": "^0.10.2",
+    "serialport": "^1.4.5"
+  },
+  "devDependencies": {
+    "bower": "^1.3.9",
+    "browserify": "^4.1.11",
+    "gulp": "^3.8.6",
+    "gulp-browserify": "^0.5.0",
+    "gulp-react": "^0.5.0",
+    "gulp-rename": "^1.2.0",
+    "node-pre-gyp": "^0.5.23",
+    "nw-gyp": "^0.12.2",
+    "reactify": "^0.14.0"
+  },
+  "browser": {
+    "mousetrap": "./public/components/mousetrap/mousetrap.js"
+  },
+  "window": {}
+}
