@@ -53,19 +53,38 @@ var GCodeViewer = React.createClass({
 React.renderComponent(<GCodeViewer rows={10} cols={4} />, document.getElementById('gcode-viewer'))
 
 var MachineManager = React.createClass({
+  getInitialState: function() {
+    return {
+      feed_held: false,
+      cycle_started: false
+    }
+  },
+
   componentDidMount: function() {
     console.log('mounted')
 
     var $this = this;
 
+    msgBus.bind('feed-held', function() {
+      $this.setState({feed_held: true})
+    })
+    msgBus.bind('cycle-stopped', function() {
+      $this.setState({cycle_started: false})
+    })
+    msgBus.bind('cycle-started', function() {
+      $this.setState({cycle_started: true})
+    })
+
     Mousetrap.bind('alt+r', function(e) {
-      $this.handleCycleStart()
+      $this.handleCycStart()
     }) 
     Mousetrap.bind('alt+s', function(e) {
+      //if (!$this.state.)
       $this.handleStop()
     }) 
     Mousetrap.bind('space', function(e) {
-      $this.handleHoldFeed()
+      if (!$this.state.feed_held)
+        $this.handleHoldFeed()
     }) 
   },
 
@@ -77,26 +96,27 @@ var MachineManager = React.createClass({
   },
 
   handleCycleStart: function() {
-    worker.send('~')
+    msgBus.send('worker', {command: 'cycle-start', message: {}})
+    //worker.send('~')
     console.log('cycle start')
   },
 
   handleStop: function() {
-    worker.send('ctrl+x')
+    msgBus.send('worker', {command: 'cycle-stop', message: {}})
     console.log('stop')
   },
 
   handleHoldFeed: function() {
-    worker.send('!')
+    msgBus.send('worker', {command: 'hold-feed', message: {}})
     console.log('hold feed')
   },
 
   render: function() {
     return <div>
       machine
-      <button className="btn btn-success" onClick={this.handleCycleStart}>Cycle Start &lt;Alt-R&gt;</button>
-      <button className="btn btn-warning" onClick={this.handleHoldFeed}>Hold Feed &lt;Spc&gt;</button>
-      <button className="btn btn-danger" onClick={this.handleStop}>Stop &lt;Alt-S&gt;</button>
+      <button className="btn btn-success" onClick={this.handleCycleStart} disabled={this.state.cycle_started}>Cycle Start &lt;Alt-R&gt;</button>
+      <button className="btn btn-warning" onClick={this.handleHoldFeed} disabled={this.state.feed_held}>Hold Feed &lt;Spc&gt;</button>
+      <button className="btn btn-danger" onClick={this.handleStop} disabled={!this.state.cycle_started}>Stop &lt;Alt-S&gt;</button>
     </div>
   }
 })

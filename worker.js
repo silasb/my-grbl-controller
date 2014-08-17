@@ -4,6 +4,9 @@
 
 var functions = {
   'set-coords': setCoords,
+  'hold-feed': holdFeed,
+  'cycle-start': cycleStart,
+  'cycle-stop': cycleStop
 }
 
 process.on('message', function(data) {
@@ -24,6 +27,21 @@ function setCoords(coords) {
   setTimeout(function() {
     process.send({type: 'coord-update', message: {z: coords.z}})
   }, 1000)
+}
+
+function holdFeed() {
+  //machine.send('!')
+  process.send({type: 'feed-held', message: {}})
+}
+
+function cycleStart() {
+  //machine.send('~')
+  process.send({type: 'cycle-started', message: {}})
+}
+
+function cycleStop() {
+  //machine.send('ctrl-x')
+  process.send({type: 'cycle-stopped', message: {}})
 }
 
 setInterval(function(){ 
