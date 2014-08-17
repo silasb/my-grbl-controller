@@ -4,6 +4,14 @@
 //
 var mousetrap = require('mousetrap');
 
+Mousetrap.bind('i', function() {
+  nodeRequire('nw.gui').Window.get().showDevTools();
+})
+
+Mousetrap.bind('r', function() {
+  nodeRequire('nw.gui').Window.get().reload();
+})
+
 Mousetrap.bind('alt+x', function() {
   console.log('alt/option-x')
 })

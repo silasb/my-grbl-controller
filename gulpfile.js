@@ -12,6 +12,13 @@ gulp.task('jsx', function() {
     .pipe(gulp.dest('public/'));
 });
 
-gulp.task('default', ['jsx'], function() {
+gulp.task('css', function() {
+  return gulp.src('src/style.css')
+    .pipe(rename('style.css'))
+    .pipe(gulp.dest('public/'))
+})
+
+gulp.task('default', ['jsx', 'css'], function() {
   gulp.watch('src/**/*.jsx', ['jsx'])
+  gulp.watch('src/**/*.css', ['css'])
 })
