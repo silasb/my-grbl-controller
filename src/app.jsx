@@ -109,9 +109,9 @@ var MachineCoordinates = React.createClass({
 
     var $this = this;
 
-    msgBus.bind('all', function(message) {
+    msgBus.bind('coord-update', function(message) {
       //console.log(message)
-      //$this.setState(message)
+      $this.setState(message)
     })
   },
 
@@ -121,6 +121,13 @@ var MachineCoordinates = React.createClass({
       y: 0,
       z: 0
     }
+  },
+
+  handleGotoZ: function() {
+    var new_z = prompt("New Z");
+
+    msgBus.send('worker', {command: 'set-coords', args: {z: new_z}})
+    //this.setState({z: new_z})
   },
 
   render: function() {
@@ -148,7 +155,7 @@ var MachineCoordinates = React.createClass({
         </div>
       </form>
 
-      <button className="btn">GOTO Z</button>
+      <button className="btn" onClick={this.handleGotoZ}>GOTO Z</button>
     </div>
   }
 })

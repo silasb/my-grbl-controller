@@ -34,11 +34,24 @@
         this.bind = function(type, callback) {
           console.log('bind')
 
+          if (! binds[type])
+            binds[type] = []
+
           binds[type].push(callback)
         }
 
         this.unbind = function(type, callback) {
           console.log('unbind')
+        }
+
+        this.send = function(type, message) {
+          console.log('send')
+
+          var callbacks = binds[type]
+
+          for (var cb in callbacks) {
+            callbacks[cb](message)
+          }
         }
       }
 
@@ -47,6 +60,11 @@
       worker = process.spawn('node', ['worker.js'], {stdio: [null, null, null, 'ipc']})
 
       worker.on('message', msgBus.reactOn)
+      msgBus.bind('worker', function(message) {
+        console.log('To Worker: ' + util.inspect(message))
+
+        worker.send({message: message})
+      })
 
       //worker.on('message', function(data) {
         //console.log(util.inspect(data))
