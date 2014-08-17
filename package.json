@@ -28,5 +28,8 @@
     "mousetrap": "./public/components/mousetrap/mousetrap.js",
     "react": "./public/components/react/react.js"
   },
-  "window": {}
+  "window": {
+    "width": 1024,
+    "height": 768
+  }
 }
