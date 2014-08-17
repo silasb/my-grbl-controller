@@ -116,30 +116,32 @@ var MachineCoordinates = React.createClass({
   },
 
   render: function() {
-    return <form className="form-horizontal" role="form">
-      <div className="form-group">
-        <label htmlFor="" className="col-sm-1 control-label">X:</label>
-        <div className="col-sm-4">
-          <input type="text" className="form-control" ref="x_axis" readOnly={true} value={this.state.x} />
+    return <div>
+      <form className="form-horizontal" role="form">
+        <div className="form-group">
+          <label htmlFor="" className="col-sm-1 control-label">X:</label>
+          <div className="col-sm-4">
+            <input type="text" className="form-control" ref="x_axis" readOnly={true} value={this.state.x} />
+          </div>
         </div>
-      </div>
 
-      <div className="form-group">
-        <label htmlFor="" className="col-sm-1 control-label">Y:</label>
-        <div className="col-sm-4">
-          <input type="text" className="form-control" ref="y_axis" readOnly={true} value={this.state.y} />
+        <div className="form-group">
+          <label htmlFor="" className="col-sm-1 control-label">Y:</label>
+          <div className="col-sm-4">
+            <input type="text" className="form-control" ref="y_axis" readOnly={true} value={this.state.y} />
+          </div>
         </div>
-      </div>
 
-      <div className="form-group">
-        <label htmlFor="" className="col-sm-1 control-label">Z:</label>
-        <div className="col-sm-4">
-          <input type="text" className="form-control" ref="z_axis" readOnly={true} value={this.state.z} />
+        <div className="form-group">
+          <label htmlFor="" className="col-sm-1 control-label">Z:</label>
+          <div className="col-sm-4">
+            <input type="text" className="form-control" ref="z_axis" readOnly={true} value={this.state.z} />
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
 
-    <button className="btn">GOTO Z</button>
+      <button className="btn">GOTO Z</button>
+    </div>
   }
 })
 
