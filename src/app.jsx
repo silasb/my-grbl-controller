@@ -47,12 +47,23 @@ var GCodeViewer = React.createClass({
     return {
       gcode_file_path: '',
       gcode_contents: '',
-      gcode_liens: []
+      gcode_lines: [],
+      gcode_line_num: 0
     }
   },
 
   componentDidMount: function() {
     //this.refs.gcode_file_entry.addEventListener('')
+  },
+
+  incrementGCodeLineNum: function() {
+    var gcode = this.refs.gcode_contents.getDOMNode()
+    var option = gcode.options[gcode.selectedIndex]
+
+    msgBus.send('worker', {command: 'gcode', args: option.innerHTML})
+
+    gcode.selectedIndex = this.state.gcode_line_num + 1
+    this.setState({gcode_line_num: this.state.gcode_line_num + 1})
   },
 
   handleChange: function() {
@@ -66,14 +77,19 @@ var GCodeViewer = React.createClass({
     var gcode_stream = fs.createReadStream(value);
 
     gcode_stream.on('close', function() {
-      $this.setState({gcode_lines: gcode_lines})
+      $this.setState({
+        gcode_lines: gcode_lines,
+        gcode_line_num: 0
+      })
+
+      $this.refs.gcode_contents.getDOMNode().selectedIndex = 0;
     })
 
     var i = 1;
     new lazy(gcode_stream)
       .lines
       .forEach(function(line) {
-        gcode_lines.push(<option key={'N' + i}>{line.toString()}</option>)
+        gcode_lines.push(<option key={'N' + i} value={i}>{line.toString()}</option>)
         i++;
       })
   },
@@ -93,11 +109,12 @@ var GCodeViewer = React.createClass({
     }
 
     return <div>
-      <select style={selectStyle} multiple="true" className="form-control">{this.state.gcode_lines}</select>
+      <select style={selectStyle} multiple="true" ref="gcode_contents" className="form-control">{this.state.gcode_lines}</select>
 
       <input style={inputStyle} ref="gcode_file_entry" type="file" onChange={this.handleChange} />
 
       <button ref="gcode_file_load" onClick={this.handleGCodeOpen}>Open GCode</button>
+      <button disabled={this.state.gcode_lines.length == 0} onClick={this.incrementGCodeLineNum}>&#8594;</button>
     </div>
   }
 })

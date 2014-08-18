@@ -6,7 +6,8 @@ var functions = {
   'set-coords': setCoords,
   'hold-feed': holdFeed,
   'cycle-start': cycleStart,
-  'cycle-stop': cycleStop
+  'cycle-stop': cycleStop,
+  'gcode': gcode
 }
 
 process.on('message', function(data) {
@@ -42,6 +43,11 @@ function cycleStart() {
 function cycleStop() {
   //machine.send('ctrl-x')
   process.send({type: 'cycle-stopped', message: {}})
+}
+
+function gcode(message) {
+  //machine.send(message)
+  process.send({type: 'log', message: message})
 }
 
 setInterval(function(){ 

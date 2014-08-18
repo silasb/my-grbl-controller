@@ -20,10 +20,15 @@
 
       var MessageBus = function() {
 
-        var binds = {'all': [function() {}]};
+        var binds = {
+          'all': [function() {}],
+          'log': [function(message) {
+            console.log("LOG:" + message)
+          }]
+        };
 
         this.reactOn = function(data) {
-          //console.log(util.inspect(data))
+          console.log(util.inspect(data))
 
           var callbacks = binds[data.type]
 
