@@ -53,8 +53,6 @@ var GCodeViewer = React.createClass({
   },
 
   componentDidMount: function() {
-    //this.refs.gcode_file_entry.addEventListener('')
-
     var $this = this;
 
     Mousetrap.bind('g i', function() {
@@ -66,6 +64,7 @@ var GCodeViewer = React.createClass({
     Mousetrap.unbind('g i');
   },
 
+  // handle methods
   incrementGCodeLineNum: function() {
     var gcode = this.refs.gcode_contents.getDOMNode()
     var option = gcode.options[gcode.selectedIndex]
