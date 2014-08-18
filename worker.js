@@ -50,19 +50,32 @@ function gcode(message) {
   process.send({type: 'log', message: message})
 }
 
-setInterval(function(){ 
-  //console.log(process)
-  //process.send({foo: 'hello'})
-  //process.send({type: 'all', message: {foo: 'hello'}})
 
-  /*
-    process.send({
+setInterval(function(){ 
+  //<Idle,MPos:5.529,0.560,7.000,WPos:1.529,-5.440,-0.000>
+
+  var input = "<Idle,MPos:5.529,0.560,7.000,WPos:1.529,-5.440,-0.000>"
+
+  //machine.send('?')
+
+  input = input.slice(1, -1)
+  input = input.split(',')
+
+  var status = input[0];
+  var mpos_x = input[1].split(':')[1];
+  var mpos_y = input[2];
+  var mpos_z = input[3];
+  var wpos_x = input[4].split(':')[1];
+  var wpos_y = input[5];
+  var wpos_z = input[6];
+
+  process.send({
     type: 'all',
     message: {
-      x: Math.random(),
-      y: Math.random(),
-      z: Math.random(),
+      x: mpos_x,
+      y: mpos_y,
+      z: mpos_z,
     }
   })
-  */
-}, 1000)
+
+}, 500)
