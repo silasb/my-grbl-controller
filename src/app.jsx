@@ -54,6 +54,12 @@ var GCodeViewer = React.createClass({
 
   componentDidMount: function() {
     //this.refs.gcode_file_entry.addEventListener('')
+
+    var $this = this;
+
+    Mousetrap.bind('g i', function() {
+      $this.handleGCodeOpen();
+    })
   },
 
   incrementGCodeLineNum: function() {
@@ -113,8 +119,8 @@ var GCodeViewer = React.createClass({
 
       <input style={inputStyle} ref="gcode_file_entry" type="file" onChange={this.handleChange} />
 
-      <button ref="gcode_file_load" onClick={this.handleGCodeOpen}>Open GCode</button>
-      <button disabled={this.state.gcode_lines.length == 0} onClick={this.incrementGCodeLineNum}>&#8594;</button>
+      <button type="button" className="btn btn-default" ref="gcode_file_load" onClick={this.handleGCodeOpen}>Open GCode (g i)</button>
+      <button type="button" className="btn btn-info" disabled={this.state.gcode_lines.length == 0} onClick={this.incrementGCodeLineNum}>&#8594;</button>
     </div>
   }
 })
@@ -248,7 +254,6 @@ var MachineCoordinates = React.createClass({
     </div>
   }
 })
-
 
 React.renderComponent(<MachineCoordinates />, document.getElementById('machine-coordinates'));
 
