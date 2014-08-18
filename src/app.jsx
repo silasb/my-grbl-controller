@@ -188,7 +188,6 @@ var MachineManager = React.createClass({
 
   render: function() {
     return <div>
-      machine
       <button className="btn btn-success" onClick={this.handleCycleStart} disabled={this.state.cycle_started}>Cycle Start &lt;Alt-R&gt;</button>
       <button className="btn btn-warning" onClick={this.handleHoldFeed} disabled={this.state.feed_held}>Hold Feed &lt;Spc&gt;</button>
       <button className="btn btn-danger" onClick={this.handleStop} disabled={!this.state.cycle_started}>Stop &lt;Alt-S&gt;</button>
