@@ -16,10 +16,6 @@ Mousetrap.bind('q', function() {
   nodeRequire('nw.gui').App.quit();
 })
 
-Mousetrap.bind('alt+x', function() {
-  console.log('alt/option-x')
-})
-
 Mousetrap.bind('up', function() {
   console.log('up')
 })
@@ -64,6 +60,10 @@ var GCodeViewer = React.createClass({
     Mousetrap.bind('g i', function() {
       $this.handleGCodeOpen();
     })
+  },
+
+  componentWillUnmount: function() {
+    Mousetrap.unbind('g i');
   },
 
   incrementGCodeLineNum: function() {
