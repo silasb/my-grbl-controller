@@ -12,7 +12,7 @@ A controller for GRBL that is similar to Mach3
 	cd node_modules/serialport
 	node-pre-gyp rebuild --runtime=node-webkit --target=0.10.0
 
-This may be needed on Linux hosts:
+This may be needed on Linux (and Mac OS X 10.9) hosts:
 
 	cd node_modules/serialport/build/serialport/v1.4.5/Release
 	cp -R node-webkit-v0.10.0-linux-x64/ node-webkit-v14-linux-x64/
