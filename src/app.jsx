@@ -145,7 +145,7 @@ var MachineManager = React.createClass({
     var $this = this;
 
     msgBus.bind('feed-held', function() {
-      $this.setState({feed_held: true})
+      $this.setState({cycle_started: false})
     })
     msgBus.bind('cycle-stopped', function() {
       $this.setState({cycle_started: false})
@@ -155,14 +155,15 @@ var MachineManager = React.createClass({
     })
 
     Mousetrap.bind('alt+r', function(e) {
-      $this.handleCycStart()
+      if (!$this.state.cycle_started)
+        $this.handleCycleStart()
     }) 
     Mousetrap.bind('alt+s', function(e) {
-      //if (!$this.state.)
-      $this.handleStop()
+      if ($this.state.cycle_started)
+        $this.handleStop()
     }) 
     Mousetrap.bind('space', function(e) {
-      if (!$this.state.feed_held)
+      if ($this.state.cycle_started)
         $this.handleHoldFeed()
     }) 
   },
@@ -193,7 +194,7 @@ var MachineManager = React.createClass({
   render: function() {
     return <div>
       <button className="btn btn-success" onClick={this.handleCycleStart} disabled={this.state.cycle_started}>Cycle Start &lt;Alt-R&gt;</button>
-      <button className="btn btn-warning" onClick={this.handleHoldFeed} disabled={this.state.feed_held}>Hold Feed &lt;Spc&gt;</button>
+      <button className="btn btn-warning" onClick={this.handleHoldFeed} disabled={!this.state.cycle_started}>Hold Feed &lt;Spc&gt;</button>
       <button className="btn btn-danger" onClick={this.handleStop} disabled={!this.state.cycle_started}>Stop &lt;Alt-S&gt;</button>
     </div>
   }
