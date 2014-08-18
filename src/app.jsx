@@ -12,6 +12,10 @@ Mousetrap.bind('r', function() {
   nodeRequire('nw.gui').Window.get().reload();
 })
 
+Mousetrap.bind('q', function() {
+  nodeRequire('nw.gui').App.quit();
+})
+
 Mousetrap.bind('alt+x', function() {
   console.log('alt/option-x')
 })
