@@ -43,14 +43,66 @@ Mousetrap.bind('pagedown', function() {
 var React = require('react')
 
 var GCodeViewer = React.createClass({
+  getInitialState: function() {
+    return {
+      gcode_file_path: '',
+      gcode_contents: '',
+      gcode_liens: []
+    }
+  },
+
+  componentDidMount: function() {
+    //this.refs.gcode_file_entry.addEventListener('')
+  },
+
+  handleChange: function() {
+    var value = this.refs.gcode_file_entry.getDOMNode().value
+    this.setState({gcode_file_path: value})
+
+    var $this = this;
+
+    var gcode_lines = []
+
+    var gcode_stream = fs.createReadStream(value);
+
+    gcode_stream.on('close', function() {
+      $this.setState({gcode_lines: gcode_lines})
+    })
+
+    var i = 1;
+    new lazy(gcode_stream)
+      .lines
+      .forEach(function(line) {
+        gcode_lines.push(<option key={'N' + i}>{line.toString()}</option>)
+        i++;
+      })
+  },
+
+  handleGCodeOpen: function() {
+    var el = this.refs.gcode_file_entry.getDOMNode()
+    el.click()
+  },
+
   render: function() {
-    return <form role="form">
-      <textarea className="form-control" disabled readonly rows={this.props.rows} cols={this.props.cols}></textarea>
-    </form>
+    var inputStyle = {
+      display: 'None'
+    }
+
+    var selectStyle = {
+      height: '400px'
+    }
+
+    return <div>
+      <select style={selectStyle} multiple="true" className="form-control">{this.state.gcode_lines}</select>
+
+      <input style={inputStyle} ref="gcode_file_entry" type="file" onChange={this.handleChange} />
+
+      <button ref="gcode_file_load" onClick={this.handleGCodeOpen}>Open GCode</button>
+    </div>
   }
 })
 
-React.renderComponent(<GCodeViewer rows={10} cols={4} />, document.getElementById('gcode-viewer'))
+React.renderComponent(<GCodeViewer />, document.getElementById('gcode-viewer'))
 
 var MachineManager = React.createClass({
   getInitialState: function() {
